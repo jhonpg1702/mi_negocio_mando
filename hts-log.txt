@@ -1,0 +1,12 @@
+HTTrack3.49-2+libhtsjava.so.2 launched on Thu, 15 Aug 2024 09:28:27 at https://preview.themeforest.net/item/swimacademy-course-booking-wordpress-theme/full_screen_preview/33861287
+(httrack https://preview.themeforest.net/item/swimacademy-course-booking-wordpress-theme/full_screen_preview/33861287 )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+09:28:29	Warning: 	Link https://preview.themeforest.net/item/swimacademy-course-booking-wordpress-theme/full_screen_preview/33861287 not scanned (follow robots meta tag)
+
+HTTrack Website Copier/3.49-2 mirror complete in 2 seconds : 2 links scanned, 1 files written (28706 bytes overall) [10888 bytes received at 5444 bytes/sec], 28753 bytes transferred using HTTP compression in 2 files, ratio 30%
+(No errors, 1 warnings, 0 messages)

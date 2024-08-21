@@ -1,0 +1,158 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Sign UP {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    main {
+        height: 100%;
+        overflow: auto;
+    }
+    .vh-lg-100 {
+        height: 100%;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <main>
+        <section class="vh-lg-100 mt-5 mt-lg-0 bg-soft d-flex align-items-center">
+            <div class="container">
+                <p class="text-center">
+       
+                </p>
+                <div class="row justify-content-center form-bg-image" data-background-lg="{{ config.ASSETS_ROOT }}/img/illustrations/signin.svg">
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                            <div class="text-center text-md-center mb-4 mt-md-0">
+                                <h1 class="mb-0 h3">
+                                    Regístrate
+                                </h1>
+                                <br />
+                                <p class="{% if msg %}text-danger{% endif %}">
+                                    {% if msg %}
+                                        {{ msg | safe }}
+                                    {% else %}
+                                        Añade tus datos
+                                    {% endif %}
+                                </p> 
+                            </div>
+                            
+                            {% if success %}
+
+                            <a href="https://mail.google.com/" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 256 193">
+                                    <path fill="#4285F4"
+                                        d="M58.182 192.05V93.14L27.507 65.077L0 49.504v125.091c0 9.658 7.825 17.455 17.455 17.455h40.727Z" />
+                                    <path fill="#34A853"
+                                        d="M197.818 192.05h40.727c9.659 0 17.455-7.826 17.455-17.455V49.505l-31.156 17.837l-27.026 25.798v98.91Z" />
+                                    <path fill="#EA4335"
+                                        d="m58.182 93.14l-4.174-38.647l4.174-36.989L128 69.868l69.818-52.364l4.669 34.992l-4.669 40.644L128 145.504z" />
+                                    <path fill="#FBBC04"
+                                        d="M197.818 17.504V93.14L256 49.504V26.231c0-21.585-24.64-33.89-41.89-20.945l-16.292 12.218Z" />
+                                    <path fill="#C5221F"
+                                        d="m0 49.504l26.759 20.07L58.182 93.14V17.504L41.89 5.286C24.61-7.66 0 4.646 0 26.23v23.273Z" />
+                                </svg>
+                            </a>
+
+                                <!-- <div class="d-grid">
+                                    <a href="{{ url_for('authentication_blueprint.login') }}" 
+                                       class="btn btn-gray-800">Iniciar sesión</a>
+                                </div> -->
+
+                            {% else %}
+
+                                <form method="post" action="{{ url_for('authentication_blueprint.register') }}" class="mt-4">
+                                    
+                                    {{ form.hidden_tag() }}
+
+                                    <div class="form-group mb-4">
+                                        <label for="email">Nombre de usuario</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <span class="fas fa-user-circle"></span>
+                                            </span>
+                                            {{ form.username(placeholder="Username", class="form-control") }}
+                                        </div>  
+                                    </div>
+
+                                    <!-- Form -->
+                                    <div class="form-group mb-4">
+                                        <label for="email">Tu correo electrónico</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <span class="fas fa-envelope"></span>
+                                            </span>
+                                            {{ form.email(placeholder="Email", class="input form-control", type="email") }}
+                                        </div>  
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label for="phone">Su teléfono</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <span class="fas  fa-mobile"></span>
+                                            </span>
+                                            {{ form.phone(placeholder="Telefono", class="input form-control") }}
+                                        </div>  
+                                    </div>
+                                    <!-- End of Form -->
+                                    <div class="form-group">
+                                        <!-- Form -->
+                                        <div class="form-group mb-4">
+                                            <label for="password">Tu contraseña</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <span class="fas fa-unlock-alt"></span>
+                                                </span>
+                                                {{ form.password(placeholder="Contraseña", class="form-control", type="password") }}
+                                                
+                                            </div>  
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="confirm_password">Confirmar Contraseña</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <svg class="icon icon-xs text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                                </span>
+                                                <!-- <input type="password" placeholder="Confirm Password" class="form-control" id="confirm_password" required> -->
+                                                {{ form.confirm(placeholder="confirmar Contraseña", class="form-control", type="password") }}
+
+                                            </div>  
+                                        </div>
+                                        
+            
+                                    </div>
+                                    <div class="d-grid">
+                                        <!-- <button type="submit" name="register" class="btn btn-gray-800">Registrarse</button> -->
+                                        {{ form.submit(class='btn btn-gray-800') }}
+
+                                    </div>
+                                </form>
+                                <br />
+                                <div class="d-flex justify-content-center align-items-center mt-4">
+                                    <span class="fw-normal">
+                                        ¿Ya tienes una cuenta?
+                                        <a href="{{ url_for('authentication_blueprint.login') }}" class="fw-bold">Iniciar sesión</a>
+                                    </span>
+                                </div>
+                            
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
