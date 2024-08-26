@@ -1,0 +1,254 @@
+{% extends "layouts/authentication/master.html" %}
+
+{% block content %}
+    <!--begin::Autenticación - Múltiples pasos-->
+    <div class="d-flex flex-column flex-lg-row flex-column-fluid stepper stepper-pills stepper-column stepper-multistep" id="kt_create_account_stepper">
+        <!--begin::Aside-->
+        <div class="d-flex flex-column flex-lg-row-auto w-lg-350px w-xl-500px">
+            <div class="d-flex flex-column position-lg-fixed top-0 bottom-0 w-lg-350px w-xl-500px scroll-y bgi-size-cover bgi-position-center" style="background-image: url({{ config.ASSETS_METRONIC_ROOT }}/media/misc/auth-bg.png)">
+                <!--begin::Header-->
+                <div class="d-flex flex-center py-10 py-lg-20 mt-lg-20">
+                    <!--begin::Logo-->
+                    <a href="index.html">
+                        <img alt="Logo" src="{{ config.ASSETS_METRONIC_ROOT }}/media/logos/custom-1.png" class="h-70px" />
+                    </a>
+                    <!--end::Logo-->
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="d-flex flex-row-fluid justify-content-center p-10">
+                    <!--begin::Nav-->
+                    <div class="stepper-nav">
+                        <!--begin::Paso 1-->
+                        <div class="stepper-item current" data-kt-stepper-element="nav">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper">
+                                <!--begin::Icono-->
+                                <div class="stepper-icon rounded-3">
+                                    <i class="ki-duotone ki-check fs-2 stepper-check"></i>
+                                    <span class="stepper-number">1</span>
+                                </div>
+                                <!--end::Icono-->
+                                <!--begin::Etiqueta-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title fs-2">Detalles del Negocio</h3>
+                                    <div class="stepper-desc fw-normal">Configura los detalles de tu negocio</div>
+                                </div>
+                                <!--end::Etiqueta-->
+                            </div>
+                            <!--end::Wrapper-->
+                            <!--begin::Línea-->
+                            <div class="stepper-line h-40px"></div>
+                            <!--end::Línea-->
+                        </div>
+                        <!--end::Paso 1-->
+                        <!--begin::Paso 2-->
+                        <div class="stepper-item" data-kt-stepper-element="nav">
+                            <!--begin::Wrapper-->
+                            <div class="stepper-wrapper">
+                                <!--begin::Icono-->
+                                <div class="stepper-icon rounded-3">
+                                    <i class="ki-duotone ki-check fs-2 stepper-check"></i>
+                                    <span class="stepper-number">2</span>
+                                </div>
+                                <!--end::Icono-->
+                                <!--begin::Etiqueta-->
+                                <div class="stepper-label">
+                                    <h3 class="stepper-title">Completado</h3>
+                                    <div class="stepper-desc fw-normal">Tu cuenta ha sido creada</div>
+                                </div>
+                                <!--end::Etiqueta-->
+                            </div>
+                            <!--end::Wrapper-->
+                            <!--begin::Línea-->
+                            <div class="stepper-line h-40px"></div>
+                            <!--end::Línea-->
+                        </div>
+                        <!--end::Paso 2-->
+
+                    </div>
+                    <!--end::Nav-->
+                </div>
+                <!--end::Body-->
+                <!--begin::Footer-->
+                <div class="d-flex flex-center flex-wrap px-5 py-10">
+                    <!--begin::Enlaces-->
+                    <div class="d-flex fw-normal">
+                        <a href="https://keenthemes.com" class="text-success px-5" target="_blank">Términos</a>
+                        <a href="https://devs.keenthemes.com" class="text-success px-5" target="_blank">Planes</a>
+                        <a href="https://1.envato.market/EA4JP" class="text-success px-5" target="_blank">Contáctanos</a>
+                    </div>
+                    <!--end::Enlaces-->
+                </div>
+                <!--end::Footer-->
+            </div>
+        </div>
+        <!--begin::Aside-->
+        <!--begin::Body-->
+        <div class="d-flex flex-column flex-lg-row-fluid py-10">
+            <!--begin::Content-->
+            <div class="d-flex flex-center flex-column flex-column-fluid">
+                <!--begin::Wrapper-->
+                <div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
+                    <!--begin::Form-->
+                    <form class="my-auto pb-5" novalidate="novalidate" id="kt_create_account_form" action='{{ url_for("authentication_blueprint.multi_steps_register") }}'>
+                        <!--begin::Paso 1-->
+                        <div class="current" data-kt-stepper-element="content">
+                            <!--begin::Wrapper-->
+                            <div class="w-100">
+                                <!--begin::Heading-->
+                                <div class="pb-10 pb-lg-12">
+                                    <!--begin::Title-->
+                                    <h2 class="fw-bold text-gray-900">Detalles del Negocio</h2>
+                                    <!--end::Title-->
+
+                                </div>
+                                <!--end::Heading-->
+                                <!--begin::Grupo de entrada-->
+                                <div class="fv-row mb-10">
+                                    <!--begin::Etiqueta-->
+                                    <label class="form-label required">Nombre del Negocio</label>
+                                    <!--end::Etiqueta-->
+                                    <!--begin::Entrada-->
+                                    <input name="business_name" class="form-control form-control-lg form-control-solid"  />
+                                    <!--end::Entrada-->
+                                </div>
+                                <!--end::Grupo de entrada-->
+
+                                <!--begin::Grupo de entrada-->
+                                <div class="fv-row mb-10">
+                                    <!--begin::Etiqueta-->
+                                    <label class="form-label required">Tipo de negocio</label>
+                                    <!--end::Etiqueta-->
+                                    <!--begin::Entrada-->
+									<select name="business_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Seleccionar..." data-allow-clear="true" data-hide-search="true">
+										<option></option>
+										{% for type in queryTypes %}
+											<option value="{{ type.id }}">{{ type.name }}</option>
+										{% endfor %}
+									</select>
+                                    <!--end::Entrada-->
+                                </div>
+                                <!--end::Grupo de entrada-->
+                                <!--begin::Grupo de entrada-->
+                                <!-- <div class="fv-row mb-10">
+                                    <label class="form-label">Descripción del Negocio</label>
+                                    <textarea name="business_description" class="form-control form-control-lg form-control-solid" rows="3"></textarea>
+                                </div> -->
+                                <!--end::Grupo de entrada-->
+                                <!--begin::Grupo de entrada-->
+                                <div class="fv-row mb-0">
+                                    <!--begin::Etiqueta-->
+                                    <label class="fs-6 fw-semibold form-label required">Correo Electrónico de Contacto</label>
+                                    <!--end::Etiqueta-->
+                                    <!--begin::Entrada-->
+                                    <input name="business_email" class="form-control form-control-lg form-control-solid" value="{{email}}" disabled />
+                                    <!--end::Entrada-->
+                                </div>
+                                <!--end::Grupo de entrada-->
+                            </div>
+                            <!--end::Wrapper-->
+                        </div>
+                        <!--end::Paso 1-->
+                        <!--begin::Paso 2-->
+						<div class="" data-kt-stepper-element="content">
+							<!--begin::Wrapper-->
+							<div class="w-100">
+								<!--begin::Heading-->
+								<div class="pb-8 pb-lg-10">
+									<!--begin::Title-->
+									<h2 class="fw-bold text-gray-900">¡Gracias por Enviar Tu Información!</h2>
+									<!--end::Title-->
+									<!--begin::Notice-->
+									<div class="text-muted fw-semibold fs-6">
+										Hemos recibido tu información correctamente. Uno de los miembros de nuestro equipo revisará los detalles y se pondrá en contacto contigo para autorizar tu negocio. 
+										Si necesitas más información o deseas verificar el estado de tu solicitud, por favor 
+										<a href="{{ url_for('authentication_blueprint.login') }}" class="link-primary fw-bold">Inicia Sesión</a>.
+									</div>
+									<!--end::Notice-->
+								</div>
+								<!--end::Heading-->
+								<!--begin::Body-->
+								<div class="mb-0">
+									<!--begin::Texto-->
+									<div class="fs-6 text-gray-600 mb-5">Agradecemos tu interés en colaborar con nosotros. Nuestro equipo se encargará de procesar tu solicitud lo más pronto posible.</div>
+									<!--end::Texto-->
+									<!--begin::Alerta-->
+									<!--begin::Notice-->
+									<div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6">
+										<!--begin::Icono-->
+										<i class="ki-duotone ki-information fs-2tx text-warning me-4">
+											<span class="path1"></span>
+											<span class="path2"></span>
+											<span class="path3"></span>
+										</i>
+										<!--end::Icono-->
+										<!--begin::Wrapper-->
+										<div class="d-flex flex-stack flex-grow-1">
+											<!--begin::Contenido-->
+											<div class="fw-semibold">
+												<h4 class="text-gray-900 fw-bold">¡Atención Necesaria!</h4>
+												<div class="fs-6 text-gray-700">
+													Para comenzar a usar nuestras herramientas, asegúrate de que toda la información proporcionada sea correcta. 
+													<!-- Si necesitas realizar alguna corrección, por favor  -->
+													<!-- <a href="utilities/wizards/vertical.html" class="fw-bold">Actualiza tu Información Aquí</a>. -->
+												</div>
+											</div>
+											<!--end::Contenido-->
+										</div>
+										<!--end::Wrapper-->
+									</div>
+									<!--end::Notice-->
+									<!--end::Alerta-->
+								</div>
+								<!--end::Body-->
+							</div>
+							<!--end::Wrapper-->
+						</div>
+						
+                        <!--end::Paso 2-->
+
+                        <!--begin::Acciones-->
+                        <div class="d-flex flex-stack pt-15">
+                            <div class="mr-2">
+                                <button type="button" class="btn btn-lg btn-light-primary me-3" data-kt-stepper-action="previous">
+                                <i class="ki-duotone ki-arrow-left fs-4 me-1">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>Anterior</button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="submit">
+                                    <span class="indicator-label">Enviar 
+                                    <i class="ki-duotone ki-arrow-right fs-4 ms-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i></span>
+                                    <span class="indicator-progress">Por favor espera... 
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                </button>
+                                
+                                <button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="next">Continuar 
+                                <i class="ki-duotone ki-arrow-right fs-4 ms-1">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i></button>
+                            </div>
+                        </div>
+                        <!--end::Acciones-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::Autenticación - Múltiples pasos-->
+{% endblock %}
+
+{% block custom_js %}
+<script src="{{ config.ASSETS_METRONIC_ROOT }}/js/custom/utilities/modals/create-business.js"></script>
+
+{% endblock %}

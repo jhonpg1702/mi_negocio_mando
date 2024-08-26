@@ -1,0 +1,129 @@
+{% extends "layouts/authentication/base_general.html" %}
+
+{% block title %} INGRESAR {% endblock %}
+
+{% block stylesheets %}
+<style>
+    .disabled-button {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <!--begin::Logo-->
+    <div class="mb-14">
+        <a href="index.html" class="">
+            <img alt="Logo" src="{{ config.ASSETS_METRONIC_ROOT }}/media/logos/solo_logo.png" class="h-100px" />
+        </a>
+    </div>
+    <!--end::Logo-->
+    
+    <!--begin::Title-->
+    <h1 class="fw-bolder text-gray-900 mb-5">Verifica tu correo electrónico</h1>
+    <!--end::Title-->
+    <!--begin::Email Display-->
+    <div class="mb-8 text-center">
+        <label for="user-email" class="form-label fw-semibold text-gray-500">Tu correo registrado:</label>
+        <input type="email" id="user-email" class="form-control form-control-solid" value="{{ email }}" disabled 
+               style="max-width: 300px; margin: 0 auto;" />
+    </div>
+    <!--end::Email Display-->
+    <!--begin::Action-->
+    <div class="fs-6 mb-8">
+        <span class="fw-semibold text-gray-500">¿No recibiste un correo?</span>
+        <a href="#" id="resend-email" class="link-primary fw-bold">Inténtalo de nuevo</a>
+        <div id="timer" class="text-gray-500 mt-2" style="display: none;">Espera <span id="timer-count">60</span> segundos...</div>
+    </div>
+    <!--end::Action-->
+    <!--begin::Link-->
+    <!-- <div class="mb-11">
+        <a href='{{ url_for("authentication_blueprint.login") }}' class="btn btn-sm btn-primary">Omitir por ahora</a>
+    </div> -->
+    <!--end::Link-->
+
+    <!--begin::Illustration-->
+    <div class="mb-0 text-center">
+        <img src="{{ config.ASSETS_METRONIC_ROOT }}/media/auth/please-verify-your-email.png" class="mw-100 mh-300px theme-light-show" alt="" />
+        <img src="{{ config.ASSETS_METRONIC_ROOT }}/media/auth/please-verify-your-email-dark.png" class="mw-100 mh-300px theme-dark-show" alt="" />
+    </div>
+    <!--end::Illustration-->
+
+
+{% endblock %}
+
+{% block custom_js %}
+<script>
+    // Configurar el Socket.IO
+    var protocol = window.location.protocol;
+    var socket = io.connect((protocol === 'https:') ? 'wss://' + document.domain + ':' + location.port : 'ws://' + document.domain + ':' + location.port);
+
+    // Manejar la conexión de Socket.IO
+    socket.on('connect', function() {
+        console.log('Connected to server');
+    });
+
+    socket.on('disconnect', function() {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', function(err) {
+        console.log(err.message);
+    });
+
+    // Manejar el evento de actualización del temporizador
+    socket.on('update_timer', function(data) {
+        var time = data.time;
+        $('#timer-count').text(time);
+    });
+
+    // Manejar el evento cuando el temporizador ha terminado
+    socket.on('timer_done', function() {
+        $('#resend-email').removeClass('disabled-button').text('Inténtalo de nuevo');
+        $('#timer').hide();
+    });
+
+    // Manejar el clic en el botón de reenviar email
+    $('#resend-email').click(function(e) {
+        e.preventDefault();
+        
+        $(this).addClass('disabled-button').text('Espera 60 segundos...');
+        $('#timer').show();
+
+        $.ajax({
+            url: "{{ url_for('authentication_blueprint.verify_email') }}",
+            type: "POST",
+            success: function(data) {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Éxito',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                    // Iniciar el temporizador en el servidor
+                    socket.emit('start_timer', { time: 60 });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ocurrió un error al procesar la solicitud.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+</script>
+
+{% endblock custom_js %}

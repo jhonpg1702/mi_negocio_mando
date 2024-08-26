@@ -1,0 +1,34 @@
+
+{% extends "layouts/authentication/master.html" %}
+
+{% block content %}
+     <!--begin::Authentication - Sign-in -->
+     <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+        <!--begin::Body-->
+        <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+            <!--begin::Form-->
+            <div class="d-flex flex-center flex-column flex-lg-row-fluid">
+                <!--begin::Wrapper-->
+                <div class="w-lg-500px p-10">
+                    <!--begin::Form-->
+                    {% block content_auth %}{% endblock %}
+                    <!--end::Form-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Form-->
+            <!--begin::Footer-->
+            {% include 'includes/includes_auth/footer.html' %}
+            <!--end::Footer-->
+        </div>
+        <!--end::Body-->
+        <!--begin::Aside-->
+        {% include 'includes/includes_auth/aside_auth.html' %}
+
+        <!--end::Aside-->
+    </div>
+{% endblock %}
+
+
+
+{% block custom_js %}{% endblock %}

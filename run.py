@@ -10,8 +10,9 @@ from   sys import exit
 
 from apps.config import config_dict
 from apps import create_app, db
+from apps import socketio
 
-# WARNING: Don't run with debug turned on in production!
+# ADVERTENCIA: ¡No ejecute con la depuración activada en producción!
 DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 print(DEBUG)
 # The configuration
@@ -38,5 +39,5 @@ if DEBUG:
     app.logger.info('ASSETS_ROOT      = ' + app_config.ASSETS_ROOT )
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app)
     

@@ -7,6 +7,9 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
+from flask_wtf import CSRFProtect
+from flask_socketio import SocketIO
+
 import os 
 
 from flask_mail import Mail
@@ -14,11 +17,15 @@ from flask_mail import Mail
 db = SQLAlchemy()
 login_manager = LoginManager()
 mail = Mail()
+csrf = CSRFProtect()  # Mueve CSRFProtect aquí
+socketio = SocketIO(logger=True, engineio_logger=True)
 
 
 def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
+    csrf.init_app(app)  # Inicializa CSRF aquí
+    socketio.init_app(app)
 
 
 def register_blueprints(app):

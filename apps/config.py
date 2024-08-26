@@ -22,11 +22,11 @@ class Config(object):
     DB_HOST     = os.getenv('DB_HOST'     , None)
     DB_PORT     = os.getenv('DB_PORT'     , None)
     DB_NAME     = os.getenv('DB_NAME'     , None)
-
+    
     USE_SQLITE  = True 
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', None)
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', None)
-    DOMAIN = os.getenv('DOMAIN', None)
+    # DOMAIN = os.getenv('DOMAIN', None)
 
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
@@ -62,7 +62,8 @@ class Config(object):
 
     # Assets Management
     ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')    
-    
+    ASSETS_METRONIC_ROOT = os.getenv('ASSETS_METRONIC_ROOT', '/static/metronic')    
+    SECURITY_PASSWORD_SALT   = os.getenv('SECURITY_PASSWORD_SALT'   , None)
 
 class ProductionConfig(Config):
     DEBUG = False
@@ -71,11 +72,12 @@ class ProductionConfig(Config):
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600
-
-
+    DOMAIN ='https://www.miapp.com0'
+    # Additional security settings for production
+    
 class DebugConfig(Config):
     DEBUG = True
-
+    DOMAIN ='http://localhost:5000' 
 
 # Load all possible configurations
 config_dict = {
